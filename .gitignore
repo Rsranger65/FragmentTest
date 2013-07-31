@@ -1,4 +1,7 @@
 .DS_Store
 ._.*
-bin/
-gen/
+*~
+
+/bin/
+/gen/
+
