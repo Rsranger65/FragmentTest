@@ -3,6 +3,7 @@ package com.test.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 public class MainActivity extends FragmentActivity implements ListTwoFragment.Callbacks,
@@ -46,6 +47,20 @@ public class MainActivity extends FragmentActivity implements ListTwoFragment.Ca
 		attachFragment(fragment, addToBackStack, curUri + ";" + curArgs, R.id.fragment_container);
 	}
 	
+	private void selectContentInline() {
+		doBack();
+		selectContent(true);
+	}
+	
+	private void doBack() {
+		FragmentManager man = getSupportFragmentManager();
+		int count = man.getBackStackEntryCount();
+		if (count > 0) {
+			man.popBackStack(man.getBackStackEntryAt(count - 1).getName(),
+				FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		}
+	}
+	
 	protected void attachFragment(Fragment fragment, boolean addToBackStack, String tag, int replaceId) {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(replaceId, fragment, tag);
@@ -71,6 +86,6 @@ public class MainActivity extends FragmentActivity implements ListTwoFragment.Ca
 	public void onThreeButtonClick(String title) {
 		curUri = ListThreeFragment.class.getName();
 		curArgs = title;
-		selectContent(false);
+		selectContentInline();
 	}
 }
